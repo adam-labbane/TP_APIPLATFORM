@@ -22,7 +22,28 @@ use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: SongRepository::class)]
 #[ApiResource(
-)]
+    uriTemplate: 'artists/{artists_id}/album/{album_id}/songs',
+    uriVariables: [
+        
+        'artists_id' => new Link(fromClass: Artist::class, toProperty: 'artist'),
+        'album_id' => new Link(fromClass: Album::class, toProperty:'album'),
+
+    ],
+    operations: [new GetCollection(), new Post()]
+    )]
+    #[ApiResource(
+        uriTemplate: 'artists/{artists_id}/album/{album_id}/songs/{id}',
+        uriVariables: [
+            
+            'artists_id' => new Link(fromClass: Artist::class, toProperty: 'artist'),
+            'album_id' => new Link(fromClass: Album::class, toProperty:'album'),
+            'id' => new Link(fromClass: Song::class)
+    
+        ],
+        operations: [new GetCollection(), new Post()]
+        )]
+    
+
 class Song
 {
     #[ORM\Id]
@@ -39,6 +60,7 @@ class Song
     #[ORM\ManyToOne(inversedBy: 'songs')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Album $album = null;
+    
 
     public function getId(): ?int
     {

@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AlbumRepository::class)]
 
@@ -25,7 +25,8 @@ use Doctrine\ORM\Mapping as ORM;
     uriVariables: [
         'artists_id' => new Link(fromClass: Artist::class, toProperty: 'artist')
     ],
-    operations: [new GetCollection(), new Post()]
+    operations: [new GetCollection(), new Post()],
+    normalizationContext: ['groups' => ['album_read']]
     )]
 #[ApiResource(
     uriTemplate: 'artists/{artists_id}/album/{album_id}',
@@ -91,6 +92,7 @@ class Album
 
     /**
      * @return Collection<int, Song>
+     * @Groups({"album_read"})
      */
     public function getSongs(): Collection
     {
