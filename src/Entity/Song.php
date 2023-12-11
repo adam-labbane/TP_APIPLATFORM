@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Odm\Filter\RangeFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\SongRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,8 +44,8 @@ use Doctrine\DBAL\Types\Types;
         ],
         operations: [new GetCollection(), new Post()]
         )]
-    
 
+#[ApiFilter(RangeFilter::class, properties: ['length'])]       
 class Song
 {
     #[ORM\Id]

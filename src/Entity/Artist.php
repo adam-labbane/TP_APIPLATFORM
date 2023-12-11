@@ -15,9 +15,11 @@ use App\Repository\ArtistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 #[ORM\Entity(repositoryClass: ArtistRepository::class)]
 #[ApiResource]
+#[ApiFilter(SearchFilter::class, properties: ['style' => 'partial'])]
 class Artist
 {
     #[ORM\Id]
