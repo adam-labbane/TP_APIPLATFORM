@@ -2,12 +2,22 @@
 
 namespace App\Entity;
 
+use ApiPlatform\GraphQl\Resolver\Factory\ItemSubscriptionResolverFactory;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
 use App\Repository\ArtistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArtistRepository::class)]
+#[ApiResource]
 class Artist
 {
     #[ORM\Id]
@@ -22,7 +32,7 @@ class Artist
     private ?string $style = null;
 
     #[ORM\OneToMany(mappedBy: 'artist', targetEntity: Album::class, orphanRemoval: true)]
-    private Collection $albums;
+    private ?Collection $albums;
 
     public function __construct()
     {

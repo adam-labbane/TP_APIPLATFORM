@@ -3,14 +3,38 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+
 use App\Repository\AlbumRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: AlbumRepository::class)]
-#[ApiResource]
+
+#[ApiResource(
+    uriTemplate: 'artists/{artists_id}/album',
+    uriVariables: [
+        'artists_id' => new Link(fromClass: Artist::class, toProperty: 'artist')
+    ],
+    operations: [new GetCollection(), new Post()]
+    )]
+#[ApiResource(
+    uriTemplate: 'artists/{artists_id}/album/{album_id}',
+    uriVariables: [
+        'artists_id' => new Link(fromClass: Artist::class, toProperty: 'artist'),
+        'album_id' => new Link(fromClass: Album::class),
+    ],
+    operations: [ new Get(), new Put(), new Delete(), new Patch() ]
+)]
 class Album
 {
     #[ORM\Id]
@@ -28,7 +52,7 @@ class Album
     private Collection $songs;
 
     #[ORM\ManyToOne(inversedBy: 'albums')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Artist $artist = null;
 
     public function __construct()

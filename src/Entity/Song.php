@@ -6,8 +6,23 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\SongRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+
+use App\Repository\AlbumRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+
+
 #[ORM\Entity(repositoryClass: SongRepository::class)]
-#[ApiResource]
+#[ApiResource(
+)]
 class Song
 {
     #[ORM\Id]
