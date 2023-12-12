@@ -21,6 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: AlbumRepository::class)]
 
 #[ApiResource(
+    security: "is_granted('ROLE_USER')",
     uriTemplate: 'artists/{artists_id}/album',
     uriVariables: [
         'artists_id' => new Link(fromClass: Artist::class, toProperty: 'artist')
@@ -29,6 +30,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['album_read']]
     )]
 #[ApiResource(
+    
     uriTemplate: 'artists/{artists_id}/album/{album_id}',
     uriVariables: [
         'artists_id' => new Link(fromClass: Artist::class, toProperty: 'artist'),
